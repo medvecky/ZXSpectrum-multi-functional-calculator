@@ -2,7 +2,9 @@
 EXEC_OUTPUT=build/multiclalc
 
 # List all your source files here
-SOURCES = multicalc.c
+SOURCES = multicalc.c \
+		  modules/system_helper.c \
+		  modules/misc_helper.c 
 
 # Maybe you'll need to edit this
 CRT=1
@@ -24,9 +26,9 @@ OBJS=$(patsubst %, src/%, $(OBJECTS))
 
 C_OPT_FLAGS=-SO3 --max-allocs-per-node200000 --opt-code-size
 
-CFLAGS=$(TARGET) $(VERBOSITY) -c $(C_OPT_FLAGS) -compiler sdcc -clib=ansi -pragma-define:ansicolumns=32 -pragma-redirect:CRT_FONT=_font_8x8_zx_clairsys 
+CFLAGS=$(TARGET) $(VERBOSITY) -c $(C_OPT_FLAGS) -compiler sdcc -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_zx_clairsys 
 #-pragma-include:$(PRAGMA_FILE)
-LDFLAGS=$(TARGET) $(VERBOSITY) --list -m -s -clib=ansi -pragma-define:ansicolumns=32 -pragma-redirect:CRT_FONT=_font_8x8_clairsys 
+LDFLAGS=$(TARGET) $(VERBOSITY) --list -m -s -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_clairsys 
 #-pragma-include:$(PRAGMA_FILE)
 ASFLAGS=$(TARGET) $(VERBOSITY) -c --list -m -s 
 

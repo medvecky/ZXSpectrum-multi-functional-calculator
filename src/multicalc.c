@@ -1,25 +1,18 @@
 #include <stdio.h>
 #include <conio.h>
 
+#include "modules/system_helper.h"
+#include "modules/misc_helper.h"
+
 int main( void )
 {
-  bordercolor( BLACK );
-  textcolor( GREEN );
-  textbackground( BLACK );
-  clrscr();
+    setUpScreen();
 
-  gotoxy( 10, 10 );
-  puts( "Hello world" );
-
-  gotoxy( 7, 11 );
-  puts( "Spectrum is cool!" );
+    header();
   
-  cgetc();
+    cgetc();
 
-  bordercolor( WHITE );
-  textcolor( BLACK );
-  textbackground( WHITE );
-  clrscr();
+    resetDefaultScreen();
 
-  return 0;
+    return EXIT_SUCCESS;
 }
