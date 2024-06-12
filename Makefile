@@ -54,7 +54,8 @@ install: all
 
 clean:
 	rm -rf $(OUT_DIR) /tmp/tmpXX*
-	rm -f src/*.lis src/*.sym src/*.o
+	rm -f src/*.lis src/*.sym src/*.o \
+		src/modules/*.lis src/modules/*.sym src/modules/*.o
 
 dirs: $(OUT_DIR)
 
