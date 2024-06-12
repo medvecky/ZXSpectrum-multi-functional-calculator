@@ -6,11 +6,23 @@
 
 int main( void )
 {
+    char argumentString[ MAX_INPUT_LENGTH ];
+    char quitFlag = ' ';
+
     setUpScreen();
 
     header();
-  
-    cgetc();
+
+    getUserInput( argumentString );
+
+    while ( quitFlag != 'q' )
+    {
+        handleArgumentString( argumentString );
+        
+        getUserInput( argumentString );
+
+        quitFlag = argumentString[ 0 ];
+    } 
 
     resetDefaultScreen();
 
