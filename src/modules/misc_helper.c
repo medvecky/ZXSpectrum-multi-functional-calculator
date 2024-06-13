@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <conio.h> 
+#include <ctype.h>
 
 #include "misc_helper.h"
+#include "system_helper.h"
 
 void header( void )
 {
@@ -37,5 +39,149 @@ void getUserInput( char * argumentString )
 
 void handleArgumentString( char * argumentString )
 {
-    printf( "data: [ %s ]\n", argumentString );
+    char * token;
+    char key = argumentString[ 0 ];
+
+    if ( strcmp( argumentString, "4 8 15 16 23 42" ) == 0 ) 
+    {
+        puts( "\nYou saved the world again!\n" );
+        puts( "I'll see you in another life, brother." );
+        puts( "Keep heading towards Swan Station when\nyou're stuck in an everlasting summer\n" );
+        
+        return;
+    }
+    
+    // TODO: Implement Queue
+    // if ( key != 'h' && key != '\0' )
+    // {
+    //     Queue_enqueue( queuePtr, argumentString );
+    // } 
+    
+    token = strtok( argumentString, " " );
+
+    while ( token != NULL ) 
+    {
+        if ( handleToken( token ) == EXIT_FAILURE ) break;
+        
+        token = strtok( NULL, " " );
+    }
+
+    // showResult();
+
+    // TODO: Implement clear logick 
+    // if ( isNeedToClear ) 
+    // {
+    //     free( argumentString );
+    //     isNeedToClear = 0;
+    // }
+}
+
+int handleToken( char * token )
+{
+    if ( isdigit( ( unsigned char )token[ 0 ] ) || 
+            ( ( unsigned char )token[ 0 ]  == '-' && 
+            isdigit( ( unsigned char )token[ 1 ] ) ) ) 
+    {
+        if  ( handleNumber( token ) == EXIT_FAILURE ) 
+        {
+            // TODO: Iplement isShowingResult logick
+            // isShowingResult = false;
+            return EXIT_FAILURE;
+        }
+    } 
+    else 
+    {
+        if ( handleOperator( token ) == EXIT_FAILURE ) 
+        {
+            // TODO: Iplement isShowingResult logick
+            // isShowingResult = false;
+            return EXIT_FAILURE;
+        }
+    }
+
+    return EXIT_SUCCESS;
+}
+
+int handleNumber( char * token )
+{
+    printf( "[ %s ] is a number\n", token );
+    // if ( strlen( token ) >= sizeof( arg1 ) ) 
+    // {
+    //     puts( "Number is too long" );
+    //     return EXIT_FAILURE;
+    // }
+
+    // if ( !isValidNumber( token ) ) 
+    // {
+    //     puts( "Invalid number format" );
+    //     return EXIT_FAILURE;
+    // }
+    
+    // strncpy( arg1, token, sizeof( arg1 ) - 1 );
+    // arg1[ sizeof( arg1 ) - 1 ] = '\0';
+
+    // argLength = strlen( arg1 );
+
+    // enableBasicRom();
+    // FP_arg1ToFp();
+    // disableBasicRom();
+
+    // Stack_push( &stackPtr, arg1Fp );
+
+    return EXIT_SUCCESS;
+}
+
+int handleOperator( char * token )
+{
+    printf( "[ %s ] is an operator\n", token );
+    // char operator = token[ 0 ];
+
+    // if ( Stack_isEmpty( stackPtr ) )
+    // {
+    //     puts( "[handleOperator]: Stack is empty." );
+    //     return EXIT_FAILURE;
+    // }
+    // else
+    // {
+    //     switch ( operator )
+    //     {
+    //         case 'f':
+    //             if ( handleFunction( token ) == EXIT_FAILURE ) 
+    //             {
+    //                 return EXIT_FAILURE;
+    //             } 
+                
+    //             isShowingResult = true;
+    //             break;
+            
+    //         case 's':
+    //             if ( handleStackFunction( token ) == EXIT_FAILURE ) 
+    //             {
+    //                 return EXIT_FAILURE;
+    //             }
+                
+    //             isShowingResult = false;
+    //             break;
+
+    //         case 'h':
+    //             if ( handleHistoryFunction( token ) == EXIT_FAILURE ) 
+    //             {
+    //                 return EXIT_FAILURE;
+    //             }
+                
+    //             isShowingResult = false;
+    //             break;    
+            
+    //         default:
+    //             if ( handleFpOperator( token ) == EXIT_FAILURE ) 
+    //             {
+    //                 return EXIT_FAILURE;
+    //             }
+                
+    //             isShowingResult = true;
+    //             break;
+    //     }
+    // } 
+
+    return EXIT_SUCCESS;
 }
