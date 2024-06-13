@@ -14,13 +14,13 @@ int main( void )
     header();
 
     getUserInput( argumentString );
+    quitFlag = argumentString[ 0 ];
 
     while ( quitFlag != 'q' )
     {
         handleArgumentString( argumentString );
         
         getUserInput( argumentString );
-
         quitFlag = argumentString[ 0 ];
     } 
 
