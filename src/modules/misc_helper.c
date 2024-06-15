@@ -6,6 +6,9 @@
 #include "misc_helper.h"
 #include "system_helper.h"
 #include "math_helper.h"
+#include "adt_stack.h"
+
+StackNodePtr stackPtr = NULL;
 
 extern char arg1[ MAX_ARGUMENT_LENGTH ];
 extern uint8_t argLength;
@@ -131,7 +134,7 @@ int handleNumber( char * token )
 
     printf( "[ %f ] is a number\n", arg1Fp );
 
-    // Stack_push( &stackPtr, arg1Fp );
+    Stack_push( &stackPtr, arg1Fp );
 
     return EXIT_SUCCESS;
 }
