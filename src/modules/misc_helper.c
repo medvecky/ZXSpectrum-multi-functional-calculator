@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <conio.h> 
 #include <ctype.h>
+#include <stdbool.h>
 
 #include "misc_helper.h"
 #include "system_helper.h"
+#include "math_helper.h"
+
+extern char arg1[ MAX_ARGUMENT_LENGTH ];
+extern uint8_t argLength;
+extern double arg1Fp;
 
 void header( void )
 {
@@ -104,27 +110,26 @@ int handleToken( char * token )
 
 int handleNumber( char * token )
 {
-    printf( "[ %s ] is a number\n", token );
-    // if ( strlen( token ) >= sizeof( arg1 ) ) 
-    // {
-    //     puts( "Number is too long" );
-    //     return EXIT_FAILURE;
-    // }
+    if ( strlen( token ) >= sizeof( arg1 ) ) 
+    {
+        puts( "Number is too long" );
+        return EXIT_FAILURE;
+    }
 
-    // if ( !isValidNumber( token ) ) 
-    // {
-    //     puts( "Invalid number format" );
-    //     return EXIT_FAILURE;
-    // }
+    if ( !isValidNumber( token ) ) 
+    {
+        puts( "Invalid number format" );
+        return EXIT_FAILURE;
+    }
     
-    // strncpy( arg1, token, sizeof( arg1 ) - 1 );
-    // arg1[ sizeof( arg1 ) - 1 ] = '\0';
+    strncpy( arg1, token, sizeof( arg1 ) - 1 );
+    arg1[ sizeof( arg1 ) - 1 ] = '\0';
 
-    // argLength = strlen( arg1 );
+    argLength = strlen( arg1 );
 
-    // enableBasicRom();
-    // FP_arg1ToFp();
-    // disableBasicRom();
+    arg1Fp = atof( arg1 );
+
+    printf( "[ %f ] is a number\n", arg1Fp );
 
     // Stack_push( &stackPtr, arg1Fp );
 
@@ -184,4 +189,19 @@ int handleOperator( char * token )
     // } 
 
     return EXIT_SUCCESS;
+}
+
+int isValidNumber( const char *str ) 
+{
+    size_t i = 0;
+
+    for ( i = 0; str[ i ]; i++ ) 
+    {
+        if ( !isdigit( str[ i ] ) && str[ i ] != '-' && 
+                str[ i ] != 'e' && str[ i ] != '.' ) 
+        {
+            return false;
+        }
+    }
+    return true;
 }

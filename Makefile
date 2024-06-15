@@ -1,10 +1,11 @@
 # This is the name of your final .nex file without the .nex extension
-EXEC_OUTPUT=build/multiclalc
+EXEC_OUTPUT=build/multicalc
 
 # List all your source files here
 SOURCES = multicalc.c \
 		  modules/system_helper.c \
-		  modules/misc_helper.c 
+		  modules/misc_helper.c \
+		  modules/math_helper.c
 
 # Maybe you'll need to edit this
 CRT=1
@@ -15,7 +16,7 @@ MKDIR = mkdir -p
 CC=docker run  --platform linux/amd64 -v .:/src/ -it z88dk/z88dk zcc
 AS=docker run  --platform linux/amd64 -v .:/src/ -it z88dk/z88dk zcc
 # TARGET=+zxn -subtype=nex -lndos
-TARGET=+zx -lndos
+TARGET=+zx -lndos -lm
 # TARGET=+cpm -lndos
 VERBOSITY=-vn
 OUT_DIR=build bin
