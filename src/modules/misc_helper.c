@@ -7,12 +7,15 @@
 #include "system_helper.h"
 #include "math_helper.h"
 #include "adt_stack.h"
+#include "operations_helper.h"
 
 StackNodePtr stackPtr = NULL;
+bool isShowingResult = false;
 
 extern char arg1[ MAX_ARGUMENT_LENGTH ];
 extern uint8_t argLength;
 extern double arg1Fp;
+extern double resultFp;
 
 void header( void )
 {
@@ -75,7 +78,7 @@ void handleArgumentString( char * argumentString )
         token = strtok( NULL, " " );
     }
 
-    // showResult();
+    showResult();
 
     // TODO: Implement clear logick 
     // if ( isNeedToClear ) 
@@ -132,8 +135,6 @@ int handleNumber( char * token )
 
     arg1Fp = atof( arg1 );
 
-    printf( "[ %f ] is a number\n", arg1Fp );
-
     Stack_push( &stackPtr, arg1Fp );
 
     return EXIT_SUCCESS;
@@ -141,18 +142,17 @@ int handleNumber( char * token )
 
 int handleOperator( char * token )
 {
-    printf( "[ %s ] is an operator\n", token );
-    // char operator = token[ 0 ];
+    char operator = token[ 0 ];
 
-    // if ( Stack_isEmpty( stackPtr ) )
-    // {
-    //     puts( "[handleOperator]: Stack is empty." );
-    //     return EXIT_FAILURE;
-    // }
-    // else
-    // {
-    //     switch ( operator )
-    //     {
+    if ( Stack_isEmpty( stackPtr ) )
+    {
+        puts( "[handleOperator]: Stack is empty." );
+        return EXIT_FAILURE;
+    }
+    else
+    {
+        switch ( operator )
+        {
     //         case 'f':
     //             if ( handleFunction( token ) == EXIT_FAILURE ) 
     //             {
@@ -180,16 +180,16 @@ int handleOperator( char * token )
     //             isShowingResult = false;
     //             break;    
             
-    //         default:
-    //             if ( handleFpOperator( token ) == EXIT_FAILURE ) 
-    //             {
-    //                 return EXIT_FAILURE;
-    //             }
+            default:
+                if ( handleFpOperator( token ) == EXIT_FAILURE ) 
+                {
+                    return EXIT_FAILURE;
+                }
                 
-    //             isShowingResult = true;
-    //             break;
-    //     }
-    // } 
+                isShowingResult = true;
+                break;
+        }
+    } 
 
     return EXIT_SUCCESS;
 }
@@ -207,4 +207,27 @@ int isValidNumber( const char *str )
         }
     }
     return true;
+}
+
+void showResult( void )
+{
+    if ( isShowingResult )
+    {
+        // if ( isNeedToCorrectPosition )
+        // {
+        //     gotoy( yPosition );
+        //     puts( "" );
+        //     isNeedToCorrectPosition = 0;
+        // }
+        
+        if ( Stack_isEmpty( stackPtr ) )
+        {
+            puts( "Stack is empty [Show result]" );
+        }
+        else 
+        {
+            Stack_getTop( stackPtr, &resultFp );
+            printf( "%f\n", resultFp );
+        }
+    }
 }

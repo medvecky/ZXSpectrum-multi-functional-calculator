@@ -7,3 +7,4 @@ int handleToken( char * token );
 int handleNumber( char * token );
 int handleOperator( char * token );
 int isValidNumber( const char *str );
+void showResult( void );
