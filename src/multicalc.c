@@ -3,11 +3,15 @@
 
 #include "modules/system_helper.h"
 #include "modules/misc_helper.h"
+#include "modules/adt_queue.h"
+
+Queue * queuePtr = NULL;
 
 int main( void )
 {
     char argumentString[ MAX_INPUT_LENGTH ];
     char quitFlag = ' ';
+    queuePtr = Queue_create( MAX_QUEUE_SIZE );
 
     setUpScreen();
 
