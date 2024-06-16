@@ -14,8 +14,8 @@ bool isShowingResult = false;
 
 extern char arg1[ MAX_ARGUMENT_LENGTH ];
 extern uint8_t argLength;
-extern double arg1Fp;
-extern double resultFp;
+extern float arg1Fp;
+extern float resultFp;
 
 void header( void )
 {
@@ -153,14 +153,14 @@ int handleOperator( char * token )
     {
         switch ( operator )
         {
-    //         case 'f':
-    //             if ( handleFunction( token ) == EXIT_FAILURE ) 
-    //             {
-    //                 return EXIT_FAILURE;
-    //             } 
+            case 'f':
+                if ( handleFunction( token ) == EXIT_FAILURE ) 
+                {
+                    return EXIT_FAILURE;
+                } 
                 
-    //             isShowingResult = true;
-    //             break;
+                isShowingResult = true;
+                break;
             
     //         case 's':
     //             if ( handleStackFunction( token ) == EXIT_FAILURE ) 

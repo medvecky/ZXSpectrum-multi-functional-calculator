@@ -9,18 +9,18 @@ typedef struct
     OperationFunc func;
 } Operator;
 
-// typedef struct 
-// {
-//     char * name;
-//     OperationFunc func;
-// } Operation;
+typedef struct 
+{
+    char * name;
+    OperationFunc func;
+} Operation;
 
 
 int handleFpOperator( char * token );
-// int handleFunction( char * token );
+int handleFunction( char * token );
 // int handleStackFunction( char * token );
 // int handleHistoryFunction( char * token );
 int handleTwoOperandOperation( void ( *operation )( void ) );
-// void handleOneOperandOperation( void ( *operation )( void ) );
+void handleOneOperandOperation( void ( *operation )( void ) );
 
 #endif

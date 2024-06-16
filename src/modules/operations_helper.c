@@ -1,14 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "operations_helper.h"
 #include "adt_stack.h"
 #include "math_helper.h"
 
 extern StackNodePtr stackPtr;
-extern double resultFp;
-extern double arg1Fp;
-extern double arg2Fp;
+extern float resultFp;
+extern float arg1Fp;
+extern float arg2Fp;
 
 Operator operators[] = 
 {
@@ -17,6 +18,24 @@ Operator operators[] =
     { '*', FP_mult },
     { '/', FP_div },
     { ( char ) 0x5e, FP_pwr },
+    { NULL, NULL }  // End marker
+};
+
+Operation operations[] = 
+{
+    { "fabs", FP_abs },
+    { "fatn", FP_atn },
+    { "fcos", FP_cos },
+    { "fmul10", FP_mul10 },
+    { "fdiv10", FP_div10 },
+    { "fexp", FP_exp },
+    { "fint", FP_int },
+    { "flog", FP_log },
+    { "fneg", FP_neg },
+    { "fsin", FP_sin },
+    { "fsqr", FP_sqr },
+    { "ftan", FP_tan },
+    { "fsgn", FP_sgn },
     { NULL, NULL }  // End marker
 };
 
@@ -59,4 +78,29 @@ int handleTwoOperandOperation( void ( *operation )( void ) )
     operation(); 
 
     return EXIT_SUCCESS;
+}
+
+int handleFunction( char * token )
+{  
+    Operation * op = operations;
+
+    for ( op; op->name != NULL; op++ ) 
+    {
+        if ( strcmp( token, op->name ) == 0 )  
+        {
+            handleOneOperandOperation( op->func );
+            Stack_push( &stackPtr, resultFp ); 
+            return EXIT_SUCCESS;
+        }
+    }
+   
+    puts( "Invalid function" );
+   
+    return EXIT_FAILURE;
+}
+
+void handleOneOperandOperation( void ( *operation )( void ) ) 
+{
+    Stack_pop(&stackPtr, &arg1Fp);
+    operation(); 
 }
