@@ -18,7 +18,7 @@ typedef struct
 
 int handleFpOperator( char * token );
 int handleFunction( char * token );
-// int handleStackFunction( char * token );
+int handleStackFunction( char * token );
 // int handleHistoryFunction( char * token );
 int handleTwoOperandOperation( void ( *operation )( void ) );
 void handleOneOperandOperation( void ( *operation )( void ) );
