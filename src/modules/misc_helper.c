@@ -8,14 +8,18 @@
 #include "math_helper.h"
 #include "adt_stack.h"
 #include "operations_helper.h"
+#include "adt_queue.h"
+#include "history_helper.h"
 
 StackNodePtr stackPtr = NULL;
 bool isShowingResult = false;
+int isNeedToClear = 0;
 
 extern char arg1[ MAX_ARGUMENT_LENGTH ];
 extern uint8_t argLength;
 extern float arg1Fp;
 extern float resultFp;
+extern Queue * queuePtr;
 
 void header( void )
 {
@@ -63,11 +67,10 @@ void handleArgumentString( char * argumentString )
         return;
     }
     
-    // TODO: Implement Queue
-    // if ( key != 'h' && key != '\0' )
-    // {
-    //     Queue_enqueue( queuePtr, argumentString );
-    // } 
+    if ( key != 'h' && key != '\0' )
+    {
+        Queue_enqueue( queuePtr, argumentString );
+    } 
     
     token = strtok( argumentString, " " );
 
@@ -80,12 +83,11 @@ void handleArgumentString( char * argumentString )
 
     showResult();
 
-    // TODO: Implement clear logick 
-    // if ( isNeedToClear ) 
-    // {
-    //     free( argumentString );
-    //     isNeedToClear = 0;
-    // }
+    if ( isNeedToClear ) 
+    {
+        free( argumentString );
+        isNeedToClear = 0;
+    }
 }
 
 int handleToken( char * token )
@@ -169,14 +171,14 @@ int handleOperator( char * token )
                 isShowingResult = false;
                 break;
 
-    //         case 'h':
-    //             if ( handleHistoryFunction( token ) == EXIT_FAILURE ) 
-    //             {
-    //                 return EXIT_FAILURE;
-    //             }
+            case 'h':
+                if ( handleHistoryFunction( token ) == EXIT_FAILURE ) 
+                {
+                    return EXIT_FAILURE;
+                }
                 
-    //             isShowingResult = false;
-    //             break;    
+                isShowingResult = false;
+                break;    
             
             default:
                 if ( handleFpOperator( token ) == EXIT_FAILURE ) 

@@ -6,6 +6,7 @@
 #include "adt_stack.h"
 #include "math_helper.h"
 #include "stack_helper.h"
+#include "history_helper.h"
 
 extern StackNodePtr stackPtr;
 extern float resultFp;
@@ -47,6 +48,17 @@ Operation stackOperations[] =
     { "spop", popfromStack },
     { "sdupe", dupeStack },
     { "sswap", swapStack },
+    { NULL, NULL }  // End marker
+};
+
+Operation historyOperations[] = 
+{
+    { "hs", printHistory },
+    { "hel", historyGetLastElement },
+    { "hc", clearHistory },
+    { "hdl", deleteLastHiostryElement }, 
+    { "hen", historyGetNthElement },
+    // { "hee", historyEditAndExecute },
     { NULL, NULL }  // End marker
 };
 
@@ -130,6 +142,24 @@ int handleStackFunction( char * token )
     }
     
     puts( "Invalid stack function" );
+
+    return EXIT_FAILURE;
+}
+
+int handleHistoryFunction( char * token )
+{
+    Operation * op = historyOperations;
+
+    for ( op; op->name != NULL; op++ ) 
+    {
+        if ( strcmp( token, op->name ) == 0 )  
+        {
+            op->func();
+            return EXIT_SUCCESS;
+        }
+    }
+    
+    puts( "Invalid history function" );
 
     return EXIT_FAILURE;
 }
