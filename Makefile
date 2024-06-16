@@ -7,7 +7,8 @@ SOURCES = multicalc.c \
 		  modules/misc_helper.c \
 		  modules/math_helper.c \
 		  modules/adt_stack.c \
-		  modules/operations_helper.c
+		  modules/operations_helper.c \
+		  modules/stack_helper.c
 
 # Maybe you'll need to edit this
 CRT=1

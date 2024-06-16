@@ -71,7 +71,7 @@ void Stack_getTop( StackNodePtr topPtr, double * topValue)
         return;
     }
 
-    double * topValue = &topPtr->data;
+    * topValue = topPtr->data;
 } 
 
 void Stack_free( StackNodePtr * topPtr )

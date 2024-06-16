@@ -96,8 +96,7 @@ int handleToken( char * token )
     {
         if  ( handleNumber( token ) == EXIT_FAILURE ) 
         {
-            // TODO: Iplement isShowingResult logick
-            // isShowingResult = false;
+            isShowingResult = false;
             return EXIT_FAILURE;
         }
     } 
@@ -105,8 +104,7 @@ int handleToken( char * token )
     {
         if ( handleOperator( token ) == EXIT_FAILURE ) 
         {
-            // TODO: Iplement isShowingResult logick
-            // isShowingResult = false;
+            isShowingResult = false;
             return EXIT_FAILURE;
         }
     }
@@ -162,14 +160,14 @@ int handleOperator( char * token )
                 isShowingResult = true;
                 break;
             
-    //         case 's':
-    //             if ( handleStackFunction( token ) == EXIT_FAILURE ) 
-    //             {
-    //                 return EXIT_FAILURE;
-    //             }
+            case 's':
+                if ( handleStackFunction( token ) == EXIT_FAILURE ) 
+                {
+                    return EXIT_FAILURE;
+                }
                 
-    //             isShowingResult = false;
-    //             break;
+                isShowingResult = false;
+                break;
 
     //         case 'h':
     //             if ( handleHistoryFunction( token ) == EXIT_FAILURE ) 

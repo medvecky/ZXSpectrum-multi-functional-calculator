@@ -5,6 +5,7 @@
 #include "operations_helper.h"
 #include "adt_stack.h"
 #include "math_helper.h"
+#include "stack_helper.h"
 
 extern StackNodePtr stackPtr;
 extern float resultFp;
@@ -36,6 +37,16 @@ Operation operations[] =
     { "fsqr", FP_sqr },
     { "ftan", FP_tan },
     { "fsgn", FP_sgn },
+    { NULL, NULL }  // End marker
+};
+
+Operation stackOperations[] = 
+{
+    { "ss", printStack },
+    { "sc", clearStack },
+    { "spop", popfromStack },
+    { "sdupe", dupeStack },
+    { "sswap", swapStack },
     { NULL, NULL }  // End marker
 };
 
@@ -103,4 +114,22 @@ void handleOneOperandOperation( void ( *operation )( void ) )
 {
     Stack_pop(&stackPtr, &arg1Fp);
     operation(); 
+}
+
+int handleStackFunction( char * token )
+{
+    Operation * op = stackOperations;
+
+    for ( op; op->name != NULL; op++ ) 
+    {
+        if ( strcmp( token, op->name ) == 0 )  
+        {
+            op->func();
+            return EXIT_SUCCESS;
+        }
+    }
+    
+    puts( "Invalid stack function" );
+
+    return EXIT_FAILURE;
 }
