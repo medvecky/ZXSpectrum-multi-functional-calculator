@@ -32,7 +32,20 @@ void FP_div( void )
 
 void FP_pwr( void )
 {
-    resultFp = pow( arg1Fp, arg2Fp );
+    if ( arg1Fp < 0 )
+    {
+        arg1Fp *= -1;
+        resultFp = pow( arg1Fp, arg2Fp );
+
+        if ( ( int )arg2Fp % 2 != 0 )
+        {
+            resultFp *= -1;
+        }
+    }
+    else
+    {
+        resultFp = pow( arg1Fp, arg2Fp );
+    }
 }
 
 void FP_abs( void )
