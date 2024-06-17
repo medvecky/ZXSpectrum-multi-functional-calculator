@@ -41,7 +41,7 @@ void getUserInput( char * argumentString )
     {
         puts( "Error reading input" );
         cgetc();
-        resetDefaultScreen();
+        // resetDefaultScreen();
         exit( EXIT_FAILURE );
     }
 
