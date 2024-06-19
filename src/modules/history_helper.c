@@ -9,6 +9,8 @@ extern Queue * queuePtr;
 extern size_t yPosition;
 extern int isNeedToCorrectPosition;
 
+static void editHistoryEntry( char * entryString );
+
 void printHistory( void )
 {
     Queue_print( queuePtr );
@@ -59,9 +61,39 @@ void historyGetNthElement( void )
     }
 }
 
-// void historyEditAndExecute( void )
-// {
-//     Queue_print_raw( queuePtr );  
-//     yPosition = wherey();
-//     isNeedToCorrectPosition = 1;
-// }
+void historyEditAndExecute( void )
+{
+    size_t n = 0;
+    char * nthElement = NULL;
+
+    size_t queueSize = Queue_getSize( queuePtr );
+
+    Queue_print_raw( queuePtr );
+
+    n = cgetc() - '0';
+    
+    while ( n <= 0 || n > queueSize ) 
+    {
+        puts( "Invalid entry number" );
+        n = cgetc() - '0';
+    }
+
+    nthElement = Queue_getNthElement( queuePtr, n );
+
+    editHistoryEntry( nthElement );
+
+    if ( nthElement != NULL ) 
+    {
+        handleArgumentString( nthElement );
+    }
+}
+
+static void editHistoryEntry( char * entryString )
+{
+    printf( "%s", entryString );
+    // TODO get cursor postion ( ASM or CP/M or something )
+    // TODO implement cursor moving 
+    // TDOD implement editing ( more subtasks )
+    cgetc();
+}
+
