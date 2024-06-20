@@ -10,6 +10,8 @@ extern size_t yPosition;
 extern int isNeedToCorrectPosition;
 
 static void editHistoryEntry( char * entryString );
+static void cursorHandler( int cursorYPosition, char * entryString );
+static void rewriteString( char * entryString, int currentCursorPosition );
 
 void printHistory( void )
 {
@@ -81,6 +83,7 @@ void historyEditAndExecute( void )
     nthElement = Queue_getNthElement( queuePtr, n );
 
     editHistoryEntry( nthElement );
+    puts( "" );
 
     if ( nthElement != NULL ) 
     {
@@ -90,10 +93,68 @@ void historyEditAndExecute( void )
 
 static void editHistoryEntry( char * entryString )
 {
-    printf( "%s", entryString );
-    // TODO get cursor postion ( ASM or CP/M or something )
-    // TODO implement cursor moving 
-    // TDOD implement editing ( more subtasks )
-    cgetc();
+    int cursorXPosition = 0;
+    int cursorYPosition = 0;
+   
+    printf( "%s]", entryString );
+    cursorXPosition = wherex();
+    cursorYPosition = wherey();
+    
+    cursorHandler( cursorYPosition, entryString );
 }
 
+// TODO: ADD handling of deleting characters from the string
+// TODO: ADD handling of adding characters to the string
+// TODO: ADD hadling of long strings that does not fit the screen
+
+static void cursorHandler( int cursorYPosition, char * entryString )
+{
+    char currentKey = cgetc();
+    size_t entryLength = strlen( entryString );
+    int currentCursorPosition = entryLength - 2;
+
+    while ( currentKey != 0x0a )
+    {
+        switch ( currentKey )
+        {
+        case 0x08:
+            if ( currentCursorPosition > 0 )
+            {
+                currentCursorPosition--;
+            }
+            break;
+        
+        case 0x09:
+            if ( currentCursorPosition < entryLength - 1 )
+            {
+                currentCursorPosition++;
+            }
+            break;
+        
+        default:
+            break;
+        }
+
+        gotoxy( 0, cursorYPosition );
+        rewriteString( entryString, currentCursorPosition );
+        currentKey = cgetc();
+    }
+}
+
+static void rewriteString( char * entryString, int currentCursorPosition )
+{
+    size_t index = 0;
+    size_t entryLength = strlen( entryString );
+
+    for ( index = 0; index < entryLength; index++ )
+    {
+        if ( index == currentCursorPosition )
+        {
+            printf( "%c]", entryString[ index ] );
+        }
+        else
+        {
+            printf( "%c", entryString[ index ] );
+        }
+    }
+}
