@@ -12,6 +12,7 @@ extern int isNeedToCorrectPosition;
 static void editHistoryEntry( char * entryString );
 static void cursorHandler( int cursorYPosition, char * entryString );
 static void rewriteString( char * entryString, int currentCursorPosition );
+static void handleBackspace( char * entryString, int * cursorYPosition, int * currentCursorPosition );
 
 void printHistory( void )
 {
@@ -93,25 +94,24 @@ void historyEditAndExecute( void )
 
 static void editHistoryEntry( char * entryString )
 {
-    int cursorXPosition = 0;
     int cursorYPosition = 0;
    
     printf( "%s]", entryString );
-    cursorXPosition = wherex();
     cursorYPosition = wherey();
     
     cursorHandler( cursorYPosition, entryString );
 }
 
-// TODO: ADD handling of deleting characters from the string
 // TODO: ADD handling of adding characters to the string
-// TODO: ADD hadling of long strings that does not fit the screen
+// TODO: use apropriate int type in new functions
 
 static void cursorHandler( int cursorYPosition, char * entryString )
 {
     char currentKey = cgetc();
     size_t entryLength = strlen( entryString );
     int currentCursorPosition = entryLength - 2;
+
+     if ( entryLength > 41) cursorYPosition--;
 
     while ( currentKey != 0x0a )
     {
@@ -129,6 +129,10 @@ static void cursorHandler( int cursorYPosition, char * entryString )
             {
                 currentCursorPosition++;
             }
+            break;
+
+        case 0x0c:
+            handleBackspace( entryString, &cursorYPosition,  &currentCursorPosition );
             break;
         
         default:
@@ -156,5 +160,22 @@ static void rewriteString( char * entryString, int currentCursorPosition )
         {
             printf( "%c", entryString[ index ] );
         }
+    }
+    printf( "%s", " " );
+}
+
+// TODO: DEBUG this function 
+//  * display the string correctly
+//  * check first cursor position
+//  * rewite string after deleting a character
+//  * create debug ooportunity for the function  
+static void handleBackspace( char * entryString, int * cursorYPosition, int * currentCursorPosition )
+{
+    size_t entryLength = strlen( entryString );
+    if ( *currentCursorPosition < entryLength ) 
+    {
+        memmove( &entryString[ *currentCursorPosition ], &entryString[ *currentCursorPosition + 1], entryLength - *currentCursorPosition );
+        entryLength--;
+        ( *currentCursorPosition )--;
     }
 }
