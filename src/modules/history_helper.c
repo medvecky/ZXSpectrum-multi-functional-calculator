@@ -10,9 +10,9 @@ extern size_t yPosition;
 extern int isNeedToCorrectPosition;
 
 static void editHistoryEntry( char * entryString );
-static void cursorHandler( int cursorYPosition, char * entryString );
-static void rewriteString( char * entryString, int currentCursorPosition );
-static void handleBackspace( char * entryString, int * cursorYPosition, int * currentCursorPosition );
+static void cursorHandler( size_t cursorYPosition, char * entryString );
+static void rewriteString( char * entryString, size_t currentCursorPosition );
+static void handleBackspace( char * entryString, size_t * cursorYPosition, size_t * currentCursorPosition );
 
 void printHistory( void )
 {
@@ -94,7 +94,7 @@ void historyEditAndExecute( void )
 
 static void editHistoryEntry( char * entryString )
 {
-    int cursorYPosition = 0;
+    size_t cursorYPosition = 0;
    
     printf( "%s]", entryString );
     cursorYPosition = wherey();
@@ -105,11 +105,11 @@ static void editHistoryEntry( char * entryString )
 // TODO: ADD handling of adding characters to the string
 // TODO: use apropriate int type in new functions
 
-static void cursorHandler( int cursorYPosition, char * entryString )
+static void cursorHandler( size_t cursorYPosition, char * entryString )
 {
     char currentKey = cgetc();
     size_t entryLength = strlen( entryString );   
-    int currentCursorPosition = entryLength - 2;
+    size_t currentCursorPosition = entryLength - 2;
 
     if ( entryLength > 41) cursorYPosition--;
 
@@ -150,7 +150,7 @@ static void cursorHandler( int cursorYPosition, char * entryString )
 
 }
 
-static void rewriteString( char * entryString, int currentCursorPosition )
+static void rewriteString( char * entryString, size_t currentCursorPosition )
 {
     size_t index = 0;
     size_t entryLength = strlen( entryString );
@@ -177,7 +177,7 @@ static void rewriteString( char * entryString, int currentCursorPosition )
     }
 }
 
-static void handleBackspace( char * entryString, int * cursorYPosition, int * currentCursorPosition )
+static void handleBackspace( char * entryString, size_t * cursorYPosition, size_t * currentCursorPosition )
 {
     size_t entryLength = strlen( entryString );
     if ( *currentCursorPosition < entryLength ) 

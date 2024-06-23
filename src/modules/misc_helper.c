@@ -212,14 +212,7 @@ int isValidNumber( const char *str )
 void showResult( void )
 {
     if ( isShowingResult )
-    {
-        // if ( isNeedToCorrectPosition )
-        // {
-        //     gotoy( yPosition );
-        //     puts( "" );
-        //     isNeedToCorrectPosition = 0;
-        // }
-        
+    { 
         if ( Stack_isEmpty( stackPtr ) )
         {
             puts( "Stack is empty [Show result]" );
