@@ -4,6 +4,7 @@
 
 #include "adt_queue.h"
 #include "misc_helper.h"
+#include "history_helper.h"
 
 extern Queue * queuePtr;
 extern size_t yPosition;
@@ -13,6 +14,7 @@ static void editHistoryEntry( char * entryString );
 static void cursorHandler( size_t cursorYPosition, char * entryString );
 static void rewriteString( char * entryString, size_t currentCursorPosition );
 static void handleBackspace( char * entryString, size_t * cursorYPosition, size_t * currentCursorPosition );
+static void handleSymbolInput( char * entryString, size_t * cursorYPosition,  size_t * currentCursorPosition, char currentKey ); 
 
 void printHistory( void )
 {
@@ -109,7 +111,7 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
 {
     char currentKey = cgetc();
     size_t entryLength = strlen( entryString );   
-    size_t currentCursorPosition = entryLength - 2;
+    size_t currentCursorPosition = entryLength - 1;
 
     if ( entryLength > 41) cursorYPosition--;
 
@@ -133,6 +135,13 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
 
         case 0x0c:
             handleBackspace( entryString, &cursorYPosition,  &currentCursorPosition );
+            break;
+        
+        CASE_HEX_0x02A_TO_0x039:
+        CASE_HEX_0x041_TO_0x05A:
+        CASE_HEX_0x05E:
+        CASE_HEX_0x061_TO_0x07A:
+            handleSymbolInput( entryString, &cursorYPosition, &currentCursorPosition, currentKey );
             break;
         
         default:
@@ -184,5 +193,17 @@ static void handleBackspace( char * entryString, size_t * cursorYPosition, size_
     {
         memmove( &entryString[ *currentCursorPosition ], &entryString[ *currentCursorPosition + 1], entryLength - *currentCursorPosition );
         if ( *currentCursorPosition > 0 ) ( *currentCursorPosition )--;
+    }
+}
+
+static void handleSymbolInput( char * entryString, size_t * cursorYPosition,  size_t * currentCursorPosition, char currentKey )
+{
+    size_t entryLength = strlen( entryString );
+     ( *currentCursorPosition ) += 1;
+
+    if ( entryLength < MAX_INPUT_LENGTH - 1 )
+    {
+        memmove( &entryString[ *currentCursorPosition + 1 ], &entryString[ *currentCursorPosition ], entryLength - *currentCursorPosition + 1 );
+        entryString[ *currentCursorPosition ] = currentKey;
     }
 }
