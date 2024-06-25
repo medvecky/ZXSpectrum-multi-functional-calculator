@@ -104,16 +104,13 @@ static void editHistoryEntry( char * entryString )
     cursorHandler( cursorYPosition, entryString );
 }
 
-// TODO: ADD handling of adding characters to the string
-// TODO: use apropriate int type in new functions
-
 static void cursorHandler( size_t cursorYPosition, char * entryString )
 {
     char currentKey = cgetc();
     size_t entryLength = strlen( entryString );   
     size_t currentCursorPosition = entryLength - 1;
 
-    if ( entryLength > 41) cursorYPosition--;
+    if ( entryLength > 41 ) cursorYPosition--;
 
     while ( currentKey != 0x0a )
     {
@@ -147,16 +144,15 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
         default:
             break;
         }
-
+        
         gotoxy( 0, cursorYPosition );
         rewriteString( entryString, currentCursorPosition );
         currentKey = cgetc();
-        entryLength = strlen( entryString ); 
+        entryLength = strlen( entryString );
     }
 
      gotoxy( 0, cursorYPosition );
      printf( "%s  ", entryString );
-
 }
 
 static void rewriteString( char * entryString, size_t currentCursorPosition )
@@ -189,7 +185,7 @@ static void rewriteString( char * entryString, size_t currentCursorPosition )
 static void handleBackspace( char * entryString, size_t * cursorYPosition, size_t * currentCursorPosition )
 {
     size_t entryLength = strlen( entryString );
-    if ( *currentCursorPosition < entryLength ) 
+    if ( *currentCursorPosition < entryLength && entryLength > 1 ) 
     {
         memmove( &entryString[ *currentCursorPosition ], &entryString[ *currentCursorPosition + 1], entryLength - *currentCursorPosition );
         if ( *currentCursorPosition > 0 ) ( *currentCursorPosition )--;
