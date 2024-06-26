@@ -110,7 +110,18 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
     size_t entryLength = strlen( entryString );   
     size_t currentCursorPosition = entryLength - 1;
 
-    if ( entryLength > 41 ) cursorYPosition--;
+    if ( entryLength > 41 && cursorYPosition < 23 )
+    { 
+        cursorYPosition--;
+    }
+    else if ( entryLength > 39 && cursorYPosition == 23 )
+    {
+        cursorYPosition = 22;
+    }
+    else if ( entryLength > 36 && entryLength < 40 && cursorYPosition == 22 )
+    {
+        cursorYPosition = 23;
+    }
 
     while ( currentKey != 0x0a )
     {
