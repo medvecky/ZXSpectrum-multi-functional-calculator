@@ -58,7 +58,7 @@ Operation historyOperations[] =
     { "hc", clearHistory },
     { "hdl", deleteLastHiostryElement }, 
     { "hen", historyGetNthElement },
-    // { "hee", historyEditAndExecute },
+    { "hee", historyEditAndExecute },
     { NULL, NULL }  // End marker
 };
 

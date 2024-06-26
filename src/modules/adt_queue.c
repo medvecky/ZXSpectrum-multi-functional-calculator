@@ -36,6 +36,7 @@ void Queue_print_raw( Queue * q )
     
     while ( current != NULL ) 
     {
+        printf( "%d. ",  index++ );
         puts( current->data );
         current = current->next;
     }
