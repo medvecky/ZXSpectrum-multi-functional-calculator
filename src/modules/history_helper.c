@@ -72,6 +72,7 @@ void historyEditAndExecute( void )
     char * nthElement = NULL;
 
     size_t queueSize = Queue_getSize( queuePtr );
+    clrscr();
 
     Queue_print_raw( queuePtr );
 
@@ -113,14 +114,6 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
     if ( entryLength > 41 && cursorYPosition < 23 )
     { 
         cursorYPosition--;
-    }
-    else if ( entryLength > 39 && cursorYPosition == 23 )
-    {
-        cursorYPosition = 22;
-    }
-    else if ( entryLength > 36 && entryLength < 40 && cursorYPosition == 22 )
-    {
-        cursorYPosition = 23;
     }
 
     while ( currentKey != 0x0a )
