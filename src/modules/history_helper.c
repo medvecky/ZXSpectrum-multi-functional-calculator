@@ -5,6 +5,7 @@
 #include "adt_queue.h"
 #include "misc_helper.h"
 #include "history_helper.h"
+#include "system_helper.h"
 
 extern Queue * queuePtr;
 extern size_t yPosition;
@@ -148,14 +149,21 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
         default:
             break;
         }
-        
+#ifdef __CPM__ 
+        gotoyx( cursorYPosition, 0 );
+#else               
         gotoxy( 0, cursorYPosition );
+#endif
         rewriteString( entryString, currentCursorPosition );
         currentKey = cgetc();
         entryLength = strlen( entryString );
     }
 
+#ifdef __CPM__ 
+    gotoyx( cursorYPosition, 0 );
+#else
      gotoxy( 0, cursorYPosition );
+#endif
      printf( "%s  ", entryString );
 }
 
