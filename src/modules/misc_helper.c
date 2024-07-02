@@ -24,18 +24,19 @@ extern Queue * queuePtr;
 void header( void )
 {
 #ifdef __CPM__
-    gotoyx( 0, 13 );
+    gotoyx( 0, 36 );
 #else
     gotoxy( 13, 0 );
 #endif    
     puts( "CALCULATOR" );
 #ifdef __CPM__
     gotoyx( 2, 0 );
+    puts( "Enter an expression for RPN calculation or 'q' for exit" );
 #else
     gotoxy( 0, 2 );
-#endif    
     puts( "Enter an expression for RPN calculation" );
     puts( "or 'q' for exit" );
+#endif    
     puts( "" );
     puts( "" );
 }

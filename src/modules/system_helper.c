@@ -6,6 +6,7 @@ void setUpScreen( void )
 {
 #ifdef __CPM__
     cls();
+    cursorOff();
 #else
     clrscr();
 #endif
@@ -22,6 +23,11 @@ void cls()
 void gotoyx( int row, int col ) 
 {
   printf ( "\x1BY%c%c", ' ' + row, ' ' + col );
+}
+
+void cursorOff()
+{
+  printf( "\x1Bf" );
 }
 
 #endif

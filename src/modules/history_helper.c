@@ -1,6 +1,7 @@
 
 #include <conio.h>
 #include <stdio.h>
+#include <cpm.h>
 
 #include "adt_queue.h"
 #include "misc_helper.h"
@@ -73,7 +74,12 @@ void historyEditAndExecute( void )
     char * nthElement = NULL;
 
     size_t queueSize = Queue_getSize( queuePtr );
+
+#ifdef __CPM__
+    cls();
+#else       
     clrscr();
+#endif
 
     Queue_print_raw( queuePtr );
 
@@ -101,7 +107,14 @@ static void editHistoryEntry( char * entryString )
     size_t cursorYPosition = 0;
    
     printf( "%s]", entryString );
+
+#ifdef __CPM__
+    cursorYPosition = a_cury();
+#else
     cursorYPosition = wherey();
+#endif
+
+    printf( "  %d", cursorYPosition  );
     
     cursorHandler( cursorYPosition, entryString );
 }
