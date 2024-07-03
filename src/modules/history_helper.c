@@ -113,8 +113,6 @@ static void editHistoryEntry( char * entryString )
 #else
     cursorYPosition = wherey();
 #endif
-
-    printf( "  %d", cursorYPosition  );
     
     cursorHandler( cursorYPosition, entryString );
 }
@@ -125,7 +123,10 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
     size_t entryLength = strlen( entryString );   
     size_t currentCursorPosition = entryLength - 1;
 
-    if ( entryLength > 41 && cursorYPosition < 23 )
+    if ( entryLength > SCREEN_WIDTH && cursorYPosition < SCREEN_HEIGHT )
+    {
+        cursorYPosition++;
+    }
     { 
         cursorYPosition--;
     }
@@ -134,21 +135,31 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
     {
         switch ( currentKey )
         {
+#ifdef __CPM__
+        case 0x01:
+#else
         case 0x08:
+#endif
             if ( currentCursorPosition > 0 )
             {
                 currentCursorPosition--;
             }
             break;
-        
+#ifdef __CPM__
+        case 0x06:
+#else        
         case 0x09:
+#endif
             if ( currentCursorPosition < entryLength - 1 )
             {
                 currentCursorPosition++;
             }
             break;
-
+#ifdef __CPM__
+        case 0x08:
+#else   
         case 0x0c:
+#endif        
             handleBackspace( entryString, &cursorYPosition,  &currentCursorPosition );
             break;
         
