@@ -64,7 +64,9 @@ git clone https://github.com/medvecky/ZXSpectrum-multi-functional-calculator.git
 make install
 ```
 
-The calculator binary, named multicalc.tap, is located in the /bin directory.
+The calculator binary, named calc.tap (calc.com for CP/M), is located in the /bin directory.
+
+By modifying the Makefile, the app can be built as a ZX Spectrum TAP file or a CP/M COM file.
 
 ## Operating Manual
 

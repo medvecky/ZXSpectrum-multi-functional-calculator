@@ -124,9 +124,6 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
     size_t currentCursorPosition = entryLength - 1;
 
     if ( entryLength > SCREEN_WIDTH && cursorYPosition < SCREEN_HEIGHT )
-    {
-        cursorYPosition++;
-    }
     { 
         cursorYPosition--;
     }

@@ -38,17 +38,15 @@ OBJS=$(patsubst %, src/%, $(OBJECTS))
 C_OPT_FLAGS=-SO3 --max-allocs-per-node200000 --opt-code-size
 
 CFLAGS=$(TARGET) $(VERBOSITY) -c $(C_OPT_FLAGS) -compiler sdcc 
-# -clib=classic 
-# -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_zx_clairsys 
+# -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_zx_clairsys 
 #-pragma-include:$(PRAGMA_FILE)
 LDFLAGS=$(TARGET) $(VERBOSITY) --list -m -s 
-# -clib=classic
-# -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_clairsys 
+# -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_clairsys 
 #-pragma-include:$(PRAGMA_FILE)
 ASFLAGS=$(TARGET) $(VERBOSITY) -c --list -m -s 
 
 # EXEC=$(EXEC_OUTPUT).nex
-# EXEC=$(EXEC_OUTPUT).tap
+#  EXEC=$(EXEC_OUTPUT).tap
 EXEC=$(EXEC_OUTPUT).com
 
 %.o: %.c $(PRAGMA_FILE)
