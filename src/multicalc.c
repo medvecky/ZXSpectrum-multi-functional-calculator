@@ -28,7 +28,5 @@ int main( void )
         quitFlag = argumentString[ 0 ];
     } 
 
-    // resetDefaultScreen();
-
     return EXIT_SUCCESS;
 }

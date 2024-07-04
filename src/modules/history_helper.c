@@ -1,10 +1,12 @@
 
 #include <conio.h>
 #include <stdio.h>
+#include <cpm.h>
 
 #include "adt_queue.h"
 #include "misc_helper.h"
 #include "history_helper.h"
+#include "system_helper.h"
 
 extern Queue * queuePtr;
 extern size_t yPosition;
@@ -72,7 +74,12 @@ void historyEditAndExecute( void )
     char * nthElement = NULL;
 
     size_t queueSize = Queue_getSize( queuePtr );
+
+#ifdef __CPM__
+    cls();
+#else       
     clrscr();
+#endif
 
     Queue_print_raw( queuePtr );
 
@@ -100,7 +107,12 @@ static void editHistoryEntry( char * entryString )
     size_t cursorYPosition = 0;
    
     printf( "%s]", entryString );
+
+#ifdef __CPM__
+    cursorYPosition = a_cury();
+#else
     cursorYPosition = wherey();
+#endif
     
     cursorHandler( cursorYPosition, entryString );
 }
@@ -111,7 +123,7 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
     size_t entryLength = strlen( entryString );   
     size_t currentCursorPosition = entryLength - 1;
 
-    if ( entryLength > 41 && cursorYPosition < 23 )
+    if ( entryLength > SCREEN_WIDTH && cursorYPosition < SCREEN_HEIGHT )
     { 
         cursorYPosition--;
     }
@@ -120,21 +132,31 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
     {
         switch ( currentKey )
         {
+#ifdef __CPM__
+        case 0x01:
+#else
         case 0x08:
+#endif
             if ( currentCursorPosition > 0 )
             {
                 currentCursorPosition--;
             }
             break;
-        
+#ifdef __CPM__
+        case 0x06:
+#else        
         case 0x09:
+#endif
             if ( currentCursorPosition < entryLength - 1 )
             {
                 currentCursorPosition++;
             }
             break;
-
+#ifdef __CPM__
+        case 0x08:
+#else   
         case 0x0c:
+#endif        
             handleBackspace( entryString, &cursorYPosition,  &currentCursorPosition );
             break;
         
@@ -148,14 +170,21 @@ static void cursorHandler( size_t cursorYPosition, char * entryString )
         default:
             break;
         }
-        
+#ifdef __CPM__ 
+        gotoyx( cursorYPosition, 0 );
+#else               
         gotoxy( 0, cursorYPosition );
+#endif
         rewriteString( entryString, currentCursorPosition );
         currentKey = cgetc();
         entryLength = strlen( entryString );
     }
 
+#ifdef __CPM__ 
+    gotoyx( cursorYPosition, 0 );
+#else
      gotoxy( 0, cursorYPosition );
+#endif
      printf( "%s  ", entryString );
 }
 
