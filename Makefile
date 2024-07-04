@@ -1,5 +1,5 @@
 # This is the name of your final .nex file without the .nex extension
-EXEC_OUTPUT=build/multicalc
+EXEC_OUTPUT=build/calc
 
 # List all your source files here
 SOURCES = multicalc.c \
@@ -13,7 +13,12 @@ SOURCES = multicalc.c \
 		  modules/history_helper.c
 
 # Maybe you'll need to edit this
-CRT=1
+
+# ZX Spectrum
+# CRT=1
+
+#CP/M
+CRT=3
 
 # You don't need to edit below here, have a nice day.
 
@@ -21,8 +26,8 @@ MKDIR = mkdir -p
 CC=docker run  --platform linux/amd64 -v .:/src/ -it z88dk/z88dk zcc
 AS=docker run  --platform linux/amd64 -v .:/src/ -it z88dk/z88dk zcc
 # TARGET=+zxn -subtype=nex -lndos
-TARGET=+zx -lndos -lm -DAMALLOC
-# TARGET=+cpm -lndos
+# TARGET=+zx -lndos -lm -DAMALLOC
+TARGET=+cpm -lndos -lzxcpm -lm -DAMALLOC -D__CPM__
 VERBOSITY=-vn
 OUT_DIR=build bin
 PRAGMA_FILE=zpragma.inc
@@ -32,15 +37,17 @@ OBJS=$(patsubst %, src/%, $(OBJECTS))
 
 C_OPT_FLAGS=-SO3 --max-allocs-per-node200000 --opt-code-size
 
-CFLAGS=$(TARGET) $(VERBOSITY) -c $(C_OPT_FLAGS) -compiler sdcc -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_zx_clairsys 
+CFLAGS=$(TARGET) $(VERBOSITY) -c $(C_OPT_FLAGS) -compiler sdcc 
+# -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_zx_clairsys 
 #-pragma-include:$(PRAGMA_FILE)
-LDFLAGS=$(TARGET) $(VERBOSITY) --list -m -s -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_clairsys 
+LDFLAGS=$(TARGET) $(VERBOSITY) --list -m -s 
+# -clib=ansi -pragma-define:ansicolumns=42 -pragma-redirect:CRT_FONT=_font_8x8_clairsys 
 #-pragma-include:$(PRAGMA_FILE)
 ASFLAGS=$(TARGET) $(VERBOSITY) -c --list -m -s 
 
 # EXEC=$(EXEC_OUTPUT).nex
-EXEC=$(EXEC_OUTPUT).tap
-# EXEC=$(EXEC_OUTPUT).com
+#  EXEC=$(EXEC_OUTPUT).tap
+EXEC=$(EXEC_OUTPUT).com
 
 %.o: %.c $(PRAGMA_FILE)
 	$(CC) $(CFLAGS) -o $@ $<
